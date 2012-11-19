@@ -47,10 +47,14 @@ double dewPointFast(double celsius, double humidity)
 
 DHT11 dht11;
 
-#define DHT11PIN 2
+#define DHT11PIN 10
 
 void setup()
 {
+  #ifdef FREERTOS_ARDUINO
+  initMainLoopStackSize(100);
+  #endif
+
   Serial.begin(115200);
   Serial.println("DHT11 TEST PROGRAM ");
   Serial.print("LIBRARY VERSION: ");
@@ -99,7 +103,7 @@ void loop()
   Serial.print("Dew PointFast (oC): ");
   Serial.println(dewPointFast(dht11.temperature, dht11.humidity));
 
-  delay(2000);
+  delay(1000);
 }
 //
 // END OF FILE
