@@ -17,8 +17,7 @@
 // + added 1.0 support
 // Mod by Rob Tillaart - Version 0.4.1 (19/05/2012)
 // + added error codes
-// Mod by Carlos Delfino - Version 0.4.1b (18/11/2012)
-// + added DuinOS critical regions
+//
 
 #include "GPBuinoS_DHT11.h"
 
@@ -37,12 +36,11 @@ int DHT11::read(int pin)
         for (int i=0; i< 5; i++) bits[i] = 0;
 
         // REQUEST SAMPLE
-#ifdef FREERTOS_ARDUINO
-        enterCritical();
-#endif
         pinMode(pin, OUTPUT);
         digitalWrite(pin, LOW);
-        delay(18);
+        //delay(18);
+        delayMicroseconds(9000);
+        delayMicroseconds(9000);
         digitalWrite(pin, HIGH);
         delayMicroseconds(40);
         pinMode(pin, INPUT);
@@ -77,9 +75,6 @@ int DHT11::read(int pin)
                 }
                 else cnt--;
         }
-#ifdef FREERTOS_ARDUINO
-        exitCritical();
-#endif
 
         // WRITE TO RIGHT VARS
         // as bits[1] and bits[3] are allways zero they are omitted in formulas.
